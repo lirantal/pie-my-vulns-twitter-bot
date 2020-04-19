@@ -20,18 +20,19 @@ async function twitterWebhookRequest(req, res) {
         continue;
       }
 
-      if (getDebugStatus()) {
-        Log("Message text:", event.text);
-        Log("id", event.id);
-        Log("id_str", event.id_str);
-        Log("in_reply_to_user_id", event.id_str.in_reply_to_user_id);
-        Log("in_reply_to_screen_name", event.in_reply_to_screen_name);
-        Log("in_reply_to_user_id_str", event.in_reply_to_user_id_str);
-        Log("in_reply_to_status_id", event.in_reply_to_status_id);
-        Log("user id", event.user.id);
-        Log("user.name", event.user.name);
-        Log("user.screen_name", event.user.screen_name);
-      }
+      if (event.user.in_reply_to_status_id === null)
+        if (getDebugStatus()) {
+          Log("Message text:", event.text);
+          Log("id", event.id);
+          Log("id_str", event.id_str);
+          Log("in_reply_to_user_id", event.id_str.in_reply_to_user_id);
+          Log("in_reply_to_screen_name", event.in_reply_to_screen_name);
+          Log("in_reply_to_user_id_str", event.in_reply_to_user_id_str);
+          Log("in_reply_to_status_id", event.in_reply_to_status_id);
+          Log("user id", event.user.id);
+          Log("user.name", event.user.name);
+          Log("user.screen_name", event.user.screen_name);
+        }
 
       const dataBuffer = Buffer.from(
         JSON.stringify({
