@@ -1,6 +1,6 @@
 "use strict";
 
-const got = require("got");
+const fetch = require("node-fetch");
 const DependencyTypeParser = require("pie-my-vulns/src/Parsers/RemediationTypeParser");
 const SeverityParser = require("pie-my-vulns/src/Parsers/SeverityParser.js");
 const { Log, getDebugStatus } = require("./utils");
@@ -33,15 +33,16 @@ async function getVulnerabilitiesMetaForPackage({
   });
 
   Log(`URL for vulnerabilities: ${packageTestUrl}`);
-  const response = await got(packageTestUrl, {
+  const response = await fetch(packageTestUrl, {
+    method: "get",
     headers: {
       "Content-Type": "application/json",
       Authorization: `token ${snykApiToken}`,
     },
-    responseType: "json",
   });
 
-  const issues = response.body.issues;
+  const data = await response.json();
+  const issues = data.issues;
   getDebugStatus() && Log(issues);
 
   const depTypeParser = new DependencyTypeParser(issues);

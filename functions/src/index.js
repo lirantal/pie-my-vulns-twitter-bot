@@ -1,17 +1,17 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const { Log } = require("./src/utils");
+const { Log } = require("./utils");
 
 admin.initializeApp(functions.config().firebase);
 
-const { processQueueMessage } = require("./src/queue");
-const { vulnLandingPage } = require("./src/controllers/vulnLandingPage");
+const { processQueueMessage } = require("./queue");
+const { vulnLandingPage } = require("./controllers/vulnLandingPage");
 const {
   twitterChallengeResponseCheck,
-} = require("./src/controllers/twitterChallengeRespose");
+} = require("./controllers/twitterChallengeRespose");
 const {
   twitterWebhookRequest,
-} = require("./src/controllers/twitterWebhookRequest");
+} = require("./controllers/twitterWebhookRequest");
 
 exports.webhook = functions.https.onRequest(async (req, res) => {
   if (req.method === "GET") {

@@ -3,7 +3,7 @@
 const crypto = require("crypto");
 const querystring = require("querystring");
 const OAuth = require("oauth-1.0a");
-const got = require("got");
+const fetch = require("node-fetch");
 const { getVulnerabilitiesMetaForPackage } = require("./snykClient");
 const { Log, getDebugStatus } = require("./utils");
 const config = require("../config");
@@ -87,10 +87,12 @@ async function postTwitterReply({
   let data;
   try {
     Log("Posting Tweet...");
-    data = await got.post(twitterStatusUpdateEndpoint, {
+    const response = await fetch(twitterStatusUpdateEndpoint, {
+      method: "post",
       headers: reqHeaders,
       body: bodyString,
     });
+    data = await response.json();
   } catch (error) {
     Log(error);
     const { response } = error;
